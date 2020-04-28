@@ -1,0 +1,200 @@
+﻿@model ClientValidation.Models.User
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>User Registration</h1>
+<style>
+    .red {
+        color: red;
+    }
+</style>
+<h4>User</h4>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Register" method="post" onsubmit="return validateForm()">
+
+
+            <div class="form-group">
+                <label class="control-label" for="FirstName" id="FirstNameLabel">First Name</label>
+                <input class="form-control" type="text" id="FirstName" name="FirstName" value="" />
+                <span class="text-danger field-validation-valid" id="FirstNameFeedback"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="LastName" id="LastNameLabel">Last Name</label>
+                <input class="form-control" type="text" id="LastName" name="LastName" value="" />
+                <span class="text-danger field-validation-valid" id="LastNameFeedback"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="Email" id="EmailLabel">Email</label>
+                <input class="form-control" type="text" id="Email" name="Email" value="" />
+                <span class="text-danger field-validation-valid" id="EmailFeedback"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="Password" id="PasswordLabel">Password</label>
+                <input class="form-control" type="text" id="Password" name="Password" value="" />
+                <span class="text-danger field-validation-valid" id="Password"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="PasswordConfirmation" id="PasswordConfirmationLabel">Please confirm password</label>
+                <input class="form-control" type="text" id="PasswordConfirmation" name="PasswordConfirmation" value="" />
+                <span class="text-danger field-validation-valid" id="PasswordConfirmation"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    function validateForm() {
+        let result = validateFirstName() & validateLastName() & validatEmail() & validatePW() & validatePWConfirmation();
+
+        if (!result) {
+            document.querySelector("#Feedback").innerHTML = "Your form has errors. See above.";
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function validateFirstName() {
+        let name = document.querySelector("#FirstName").value;
+        let warning = '';
+
+        if (!name || name.length < 2) {
+            warning += 'First name is empty or too short. ';
+        } else if (name.length > 30) {
+            warning += 'First name is too long. ';
+        }
+
+        if (warning == '') {
+            document.querySelector("#FirstNameLabel").classList.remove('red');
+            document.querySelector("#FirstNameFeedback").innerHTML = '';
+            return true;
+        } else {
+            //display the warning in the span set up for it
+            document.querySelector("#FirstNameFeedback").innerHTML = warning;
+            //add a CSS class to an element
+            document.querySelector("#FirstNameLabel").classList.add('red');
+            return false;
+        }
+    }
+
+    function validateLastName() {
+        let name = document.querySelector("#LastName").value;
+        let warning = '';
+
+        if (!name || name.length < 2) {
+            warning += 'Last mame is empty or too short. ';
+        } else if (name.length > 30) {
+            warning += 'Last name is too long. ';
+        }
+
+        if (warning == '') {
+            document.querySelector("#LastNameLabel").classList.remove('red');
+            document.querySelector("#LastNameFeedback").innerHTML = '';
+            return true;
+        } else {
+            //display the warning in the span set up for it
+            document.querySelector("#LastNameFeedback").innerHTML = warning;
+            //add a CSS class to an element
+            document.querySelector("#LastNameLabel").classList.add('red');
+            return false;
+        }
+    }
+    function validateEmail() {
+        //debugger;
+        let category = document.querySelector("#Category").value;
+        let warning = '';
+        var emailPattern = /^([A-z]{2,})\@(\[A-z]{2,})\.([A - z]{ 2,}) $ /;
+        /(?:\d{3}|\(\d{3}\))([-\/\.])\d{3}\1\d{4}/;
+        if (!category || category.length < 5) {
+            warning += 'Category is empty or too short. ';
+        } else if (category.length > 20) {
+            warning += 'Category is too long. ';
+        }
+
+        console.log("In validateCategory");
+        console.log(warning);
+
+        if (warning == '') {
+            document.querySelector("#CategoryLabel").classList.remove('red');
+            document.querySelector("#CategoryFeedback").innerHTML = '';
+            return true;
+        } else {
+            //display the warning in the span set up for it
+            document.querySelector("#CategoryFeedback").innerHTML = warning;
+            //add a CSS class to an element
+            document.querySelector("#CategoryLabel").classList.add('red');
+            return false;
+        }
+    }
+
+    function validatePW() {
+        let quantity = document.querySelector("#QuantityInStock").value;
+        let warning = '';
+
+        if (!quantity) { //0 is '0'
+            warning += 'Quantity cannot be blank.';
+        } else if (quantity < 0) { //numerical comparison forces it to parse to a number
+            warning += 'Quantity cannot be negative.';
+        }
+
+        //advanced: catch if it's non-integer
+
+        if (warning == '') {
+            document.querySelector("#QtyLabel").classList.remove('red');
+            document.querySelector("#QtyFeedback").innerHTML = '';
+            return true;
+        } else {
+            //display the warning in the span set up for it
+            document.querySelector("#QtyFeedback").innerHTML = warning;
+            //add a CSS class to an element
+            document.querySelector("#QtyLabel").classList.add('red');
+            return false;
+        }
+    }
+
+    function validatePWConfirmation() {
+        let quantity = document.querySelector("#QuantityInStock").value;
+        let warning = '';
+
+        if (!quantity) { //0 is '0'
+            warning += 'Quantity cannot be blank.';
+        } else if (quantity < 0) { //numerical comparison forces it to parse to a number
+            warning += 'Quantity cannot be negative.';
+        }
+
+        //advanced: catch if it's non-integer
+
+        if (warning == '') {
+            document.querySelector("#QtyLabel").classList.remove('red');
+            document.querySelector("#QtyFeedback").innerHTML = '';
+            return true;
+        } else {
+            //display the warning in the span set up for it
+            document.querySelector("#QtyFeedback").innerHTML = warning;
+            //add a CSS class to an element
+            document.querySelector("#QtyLabel").classList.add('red');
+            return false;
+        }
+    }
+
+</script>
